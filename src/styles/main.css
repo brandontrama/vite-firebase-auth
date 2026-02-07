@@ -1,0 +1,11 @@
+.cat-img {
+  width: 300px;     /* desired width */
+  max-width: 100%;  /* responsive */
+  height: auto;
+  display: block;
+}
+
+/* optional: larger on wider screens */
+@media (min-width: 768px) {
+  .cat-img { width: 400px; }
+}
