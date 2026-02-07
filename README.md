@@ -82,6 +82,8 @@ VITE_FIREBASE_MEASUREMENT_ID=G-XXXX
 ### 5. **Congratulations!**
   - Users can now register to your website and you can check this by going back to *Authentication* and check under the *Users* tab.
 
+![Very cool thumbs up guy](doc/thumbsup.png)
+
 ## Run the Project
 
 ```bash
