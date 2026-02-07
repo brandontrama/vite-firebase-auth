@@ -1,4 +1,4 @@
-# Sprint5BasicWebStack
+# Vite Firebase Auth Starter
 
 ### A basic web authentication stack using Firebase, Vite, and vanilla JS.
 
@@ -17,8 +17,8 @@ This project uses the following:
 ## 🛠️ Installation
 In bash:
 ```bash
-git clone https://github.com/brandontrama/Sprint5BasicWebStack.git
-cd Sprint5BasicWebStack
+git clone https://github.com/brandontrama/vite-firebase-auth.git
+cd vite-firebase-auth
 npm install
 ```
 
