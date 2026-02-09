@@ -18,5 +18,8 @@ src/dist/
 # Firebase logs and temporary files
 firebase-debug.log*
 
+# GitHub Workflow files
+.github/
+
 # OS files
 .DS_Store
