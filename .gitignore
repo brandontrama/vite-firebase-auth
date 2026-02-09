@@ -9,5 +9,14 @@ node_modules/
 # Build output
 dist/
 
+# Vite build output inside src (project uses `src/dist`)
+src/dist/
+
+# Firebase local cache
+.firebase/
+
+# Firebase logs and temporary files
+firebase-debug.log*
+
 # OS files
 .DS_Store
