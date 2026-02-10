@@ -9,3 +9,10 @@
 @media (min-width: 768px) {
   .cat-img { width: 400px; }
 }
+
+.main-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
