@@ -1,6 +1,8 @@
 {
   "dependencies": {
     "firebase": "^12.8.0",
+    "particles": "^0.3.1",
+    "particles.js": "^2.0.0",
     "vite": "^7.3.1"
   },
   "scripts": {
