@@ -3,7 +3,7 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, sendEmailVerification } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, sendPasswordResetEmail } from "firebase/auth";
 
 function initializeFirebase() {
     // Your web app's Firebase configuration
@@ -57,6 +57,7 @@ function loginUser(auth, email, password) {
             console.log('User logged in:', user);
         })
         .catch((error) => {
+            // IMPLEMENT WARNING BOX INSTEAD OF ALERTS !!!!!!!!!!!!!!!!
             const errorCode = error.code;
             const errorMessage = error.message;
             if (errorCode === 'auth/wrong-password') {
@@ -107,4 +108,4 @@ function logoutUser(auth) {
     });
 }
 
-export { initializeFirebase, registerUser, loginUser, checkAuthState, sendEmailVerification, logoutUser, checkProfileOnboarding };
+export { initializeFirebase, registerUser, loginUser, checkAuthState, sendEmailVerification, logoutUser, checkProfileOnboarding, sendPasswordResetEmail };
