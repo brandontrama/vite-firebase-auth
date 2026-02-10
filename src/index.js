@@ -1,33 +1,71 @@
-import { initializeFirebase, registerUser, loginUser, checkAuthState } from './auth.js';
+import { initializeFirebase, registerUser, loginUser, checkAuthState, sendEmailVerification, checkProfileOnboarding } from './auth.js';
 
 const { app, analytics, auth } = initializeFirebase();
 
-// Check if user is already logged in
+const registerForm = document.querySelector('#register-form');
+const loginForm = document.querySelector('#login-form');
+const emailVerification = document.querySelector('#email-verification');
+const emailVerificationBtn = document.querySelector('#email-verification-btn');
+//const swapFormButton = document.getElementById('swap-form');
+const swapToLoginBtn = document.getElementById('swap-form');
+const swapToRegisterBtn = document.getElementById('swap-form-login');
+
+// Check if user is already logged in and verification email has been accepted
 checkAuthState((user) => {
-  if (user) {
-    // User is logged in, redirect to home
-    window.location.href = '/home.html';
+  if (user && !user.emailVerified) {
+    // User is logged in but email is not verified
+    console.log('User (' + user.email + ') is logged in but email is not verified');
+    registerForm.style.display = 'none';
+    swapFormButton.style.display = 'none';
+    emailVerification.style.display = 'block';
+  } else if (user && user.emailVerified) {
+    // User is logged in and email is verified
+    console.log('User is logged in and email is verified');
+    // Redirect to home
+    checkProfileOnboarding((isComplete) => {
+      if (isComplete === true) {
+        window.location.href = '/home';
+      } else if (isComplete === false) {
+        window.location.href = '/onboarding';
+      }
+    });
   }
 });
 
-const swapFormButton = document.getElementById('swap-form');
-swapFormButton.addEventListener('click', () => {
-    const registerForm = document.querySelector('#register-form');
-    const loginForm = document.querySelector('#login-form');
-    // Swap between login and register form
-    if (registerForm.style.display === 'none') {
-        registerForm.style.display = 'block';
-        loginForm.style.display = 'none';
-        swapFormButton.textContent = 'Already have an account? Login here!';
-    } else {
-        registerForm.style.display = 'none';
-        loginForm.style.display = 'block';
-        swapFormButton.textContent = "Don't have an account? Register here!";
-    }
+// swapFormButton.addEventListener('click', () => {
+//     const registerForm = document.querySelector('#register-form');
+//     const loginForm = document.querySelector('#login-form');
+//     // Swap between login and register form
+//     if (registerForm.style.display === 'none') {
+//         registerForm.style.display = 'block';
+//         loginForm.style.display = 'none';
+//         swapFormButton.textContent = 'Already have an account? Login here!';
+//     } else {
+//         registerForm.style.display = 'none';
+//         loginForm.style.display = 'block';
+//         swapFormButton.textContent = "Don't have an account? Register here!";
+//     }
+// });
+
+// Switch to login form
+swapToLoginBtn.addEventListener('click', () => {
+    registerForm.style.display = 'none';
+    swapToLoginBtn.style.display = 'none';
+    
+    loginForm.style.display = 'block';
+    swapToRegisterBtn.style.display = 'block';
 });
 
-// print registered user info to console
-const registerForm = document.querySelector('#register-form');
+// Switch to register form
+swapToRegisterBtn.addEventListener('click', () => {
+    loginForm.style.display = 'none';
+    swapToRegisterBtn.style.display = 'none';
+    
+    registerForm.style.display = 'block';
+    swapToLoginBtn.style.display = 'block';
+});
+
+
 registerForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
@@ -40,13 +78,18 @@ registerForm.addEventListener('submit', (e) => {
     console.log('Password:', password);
 
     // Register user with Firebase Authentication
-    registerUser(auth, email, password);
+
+    if (registerUser(auth, email, password)) {
+        // If registration is successful, show email verification section
+        registerForm.style.display = 'none';
+        swapFormButton.style.display = 'none';
+        emailVerification.style.display = 'block';
+    }
 
     // Clear form
     registerForm.reset();
 });
-// print logged in user info to console
-const loginForm = document.querySelector('#login-form');
+
 loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
@@ -63,6 +106,23 @@ loginForm.addEventListener('submit', (e) => {
 
     // Clear form
     loginForm.reset();
+});
+
+emailVerificationBtn.addEventListener('click', async (e) => {
+    e.preventDefault();
+    const actionCodeSettings = {
+        url: window.location.origin + '/home',
+        handleCodeInApp: true
+    }
+
+    try {
+        await sendEmailVerification(auth.currentUser, actionCodeSettings);
+    } catch (error) {
+        console.error('Error sending verification email:', error);
+    }
+    emailVerificationBtn.textContent = "Sent!";
+    emailVerificationBtn.className = "btn btn-success";
+    emailVerificationBtn.disabled = true;
 });
 
 export { auth, app, analytics };
