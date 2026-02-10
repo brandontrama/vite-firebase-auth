@@ -6,7 +6,6 @@ const registerForm = document.querySelector('#register-form');
 const loginForm = document.querySelector('#login-form');
 const emailVerification = document.querySelector('#email-verification');
 const emailVerificationBtn = document.querySelector('#email-verification-btn');
-//const swapFormButton = document.getElementById('swap-form');
 const swapToLoginBtn = document.getElementById('swap-form');
 const swapToRegisterBtn = document.getElementById('swap-form-login');
 
@@ -16,7 +15,8 @@ checkAuthState((user) => {
     // User is logged in but email is not verified
     console.log('User (' + user.email + ') is logged in but email is not verified');
     registerForm.style.display = 'none';
-    swapFormButton.style.display = 'none';
+    swapToLoginBtn.style.display = 'none';        // Changed
+    swapToRegisterBtn.style.display = 'none';
     emailVerification.style.display = 'block';
   } else if (user && user.emailVerified) {
     // User is logged in and email is verified
@@ -31,21 +31,6 @@ checkAuthState((user) => {
     });
   }
 });
-
-// swapFormButton.addEventListener('click', () => {
-//     const registerForm = document.querySelector('#register-form');
-//     const loginForm = document.querySelector('#login-form');
-//     // Swap between login and register form
-//     if (registerForm.style.display === 'none') {
-//         registerForm.style.display = 'block';
-//         loginForm.style.display = 'none';
-//         swapFormButton.textContent = 'Already have an account? Login here!';
-//     } else {
-//         registerForm.style.display = 'none';
-//         loginForm.style.display = 'block';
-//         swapFormButton.textContent = "Don't have an account? Register here!";
-//     }
-// });
 
 // Switch to login form
 swapToLoginBtn.addEventListener('click', () => {
@@ -82,7 +67,8 @@ registerForm.addEventListener('submit', (e) => {
     if (registerUser(auth, email, password)) {
         // If registration is successful, show email verification section
         registerForm.style.display = 'none';
-        swapFormButton.style.display = 'none';
+        swapToLoginBtn.style.display = 'none';        // Changed
+        swapToRegisterBtn.style.display = 'none';
         emailVerification.style.display = 'block';
     }
 
@@ -123,6 +109,41 @@ emailVerificationBtn.addEventListener('click', async (e) => {
     emailVerificationBtn.textContent = "Sent!";
     emailVerificationBtn.className = "btn btn-success";
     emailVerificationBtn.disabled = true;
+});
+
+particlesJS('particles-js', {
+    particles: {
+        number: { value: 80, density: { enable: true, value_area: 800 } },
+        color: { value: '#ffffff' },
+        shape: { type: 'circle' },
+        opacity: { value: 0.5, random: false },
+        size: { value: 3, random: true },
+        line_linked: {
+            enable: true,
+            distance: 150,
+            color: '#ffffff',
+            opacity: 0.4,
+            width: 1
+        },
+        move: {
+            enable: true,
+            speed: 3,
+            direction: 'none',
+            random: true,
+            straight: false,
+            out_mode: 'out',
+            bounce: false
+        }
+    },
+    interactivity: {
+        detect_on: 'canvas',
+        events: {
+            onhover: { enable: true, mode: 'repulse' },
+            onclick: { enable: true, mode: 'push' },
+            resize: true
+        }
+    },
+    retina_detect: true
 });
 
 export { auth, app, analytics };
