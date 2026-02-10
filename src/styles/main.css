@@ -17,6 +17,8 @@
   align-items: center;
   font-family: 'Inter';
   color: #ffffff;
+  position: relative;
+  z-index: 1;
 }
 
 #particles-js {
@@ -43,7 +45,18 @@
     }
 }
 
-.main-container {
-    position: relative;
-    z-index: 1;
+#register-form {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 40px;
+    backdrop-filter: blur(10px);
+}
+
+#login-form {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 40px;
+    backdrop-filter: blur(10px);
 }
