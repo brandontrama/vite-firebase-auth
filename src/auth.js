@@ -3,7 +3,7 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, sendEmailVerification } from "firebase/auth";
 
 function initializeFirebase() {
     // Your web app's Firebase configuration
@@ -26,7 +26,6 @@ function initializeFirebase() {
     const auth = getAuth(app);
     return { app, analytics, auth };
 }
-
 
 function registerUser(auth, email, password) {
     createUserWithEmailAndPassword(auth, email, password)
@@ -72,20 +71,11 @@ function loginUser(auth, email, password) {
         });
 }
 
-function logoutUser(auth) {
-    auth.signOut().then(() => {
-        console.log('User logged out');
-    }).catch((error) => {
-        console.error('Error logging out:', error);
-    });
-}
-
 // Listen for auth state changes
 function checkAuthState(callback) {
   const auth = getAuth();
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      console.log('User is logged in:', user.email);
       callback(user);
     } else {
       console.log('No user logged in');
@@ -94,4 +84,27 @@ function checkAuthState(callback) {
   });
 }
 
-export { initializeFirebase, registerUser, loginUser, checkAuthState, logoutUser };
+function checkProfileOnboarding(callback) {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+        if (user && user.emailVerified) {
+            if (user.displayName == null) {
+                callback(false); // User has not completed onboarding
+            } else {
+                callback(true); // User has completed onboarding
+            }
+        } else {
+            callback(null); // User is not verified or not logged in
+        }
+    });
+}
+
+function logoutUser(auth) {
+    auth.signOut().then(() => {
+        console.log('User logged out');
+    }).catch((error) => {
+        console.error('Error logging out:', error);
+    });
+}
+
+export { initializeFirebase, registerUser, loginUser, checkAuthState, sendEmailVerification, logoutUser, checkProfileOnboarding };
