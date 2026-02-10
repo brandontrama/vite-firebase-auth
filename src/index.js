@@ -1,4 +1,4 @@
-import { initializeFirebase, registerUser, loginUser, checkAuthState, sendEmailVerification, checkProfileOnboarding } from './auth.js';
+import { initializeFirebase, registerUser, loginUser, checkAuthState, sendEmailVerification, checkProfileOnboarding, sendPasswordResetEmail } from './auth.js';
 
 const { app, analytics, auth } = initializeFirebase();
 
@@ -8,6 +8,9 @@ const emailVerification = document.querySelector('#email-verification');
 const emailVerificationBtn = document.querySelector('#email-verification-btn');
 const swapToLoginBtn = document.getElementById('swap-form');
 const swapToRegisterBtn = document.getElementById('swap-form-login');
+const resetPWBtn = document.getElementById('reset-password-btn');
+// TEMPORARY UNTIL PROPER IMPLEMENTATION
+resetPWBtn.disabled = true;
 
 // Check if user is already logged in and verification email has been accepted
 checkAuthState((user) => {
@@ -39,17 +42,33 @@ swapToLoginBtn.addEventListener('click', () => {
     
     loginForm.style.display = 'block';
     swapToRegisterBtn.style.display = 'block';
+    resetPWBtn.style.display = 'block';
 });
 
 // Switch to register form
 swapToRegisterBtn.addEventListener('click', () => {
     loginForm.style.display = 'none';
     swapToRegisterBtn.style.display = 'none';
+    resetPWBtn.style.display = 'none';
     
     registerForm.style.display = 'block';
     swapToLoginBtn.style.display = 'block';
 });
 
+resetPWBtn.addEventListener('click', async (e) => {
+    e.preventDefault()
+
+    const emailInput = document.querySelector('#email');
+    const email = emailInput.value;
+
+    try {
+        await sendPasswordResetEmail(auth, email);
+        alert('Password reset email sent!');
+    } catch (error) {
+        console.error('Error sending password reset email:', error);
+        alert('Error sending password reset email. Please try again.');
+    }
+});
 
 registerForm.addEventListener('submit', (e) => {
     e.preventDefault();

@@ -11,30 +11,32 @@
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 
-<body id="index-body">
+<body>
     <div id="particles-js"></div>
     <div class="main-container">
         <div class="registration-container">
             <!-- Registration form using bootstrap -->
             <form id="register-form">
                 <h1><b>Welcome!</b></h1>
-                <h2>Register below:</h2>
+                <h2>Register an account below:</h2>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email address</label>
-                    <input type="email" class="form-control" id="email" required>
+                    <input type="email" class="form-control" placeholder="Enter your email address" id="email" required>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" required>
+                    <input type="password" class="form-control" placeholder="Must be at least 6 characters" id="password" required>
                 </div>
-                <button id="register-btn" type="submit" class="btn btn-primary">Register</button>
+                <button id="register-btn" type="submit" class="btn btn-primary" style="width: 100%;">Register</button>
             </form>
+            <hr style="border-color: rgba(255, 255, 255, 1.0); margin: 20px 0;">
             <button id="swap-form" class="btn btn-secondary mt-3">Already have an account? Login here!</button>
         </div>
         <div class="login-container">
             <!-- Login form using bootstrap, hidden by default -->
             <form id="login-form" style="display: none;">
-                <h1>Welcome back!</h1>
+                <div class="alert alert-warning" role="alert">Password reset is disabled for now!</div>
+                <h1><b>Welcome back!</b></h1>
                 <h2>Login to your account:</h2>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email address</label>
@@ -44,9 +46,11 @@
                     <label for="password" class="form-label">Password</label>
                     <input type="password" class="form-control" id="password" required>
                 </div>
-                <button type="submit" class="btn btn-primary">Login</button>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
             </form>
+            <hr style="border-color: rgba(255, 255, 255, 1.0); margin: 20px 0;">
             <button id="swap-form-login" class="btn btn-secondary mt-3" style="display: none;">Don't have an account? Register here!</button>
+            <button id="reset-password-btn" class="btn btn-warning mt-3" data-bs-toggle="tooltip" data-bs-placement="top" title="DEBUG: Disabled for now" style="display: none;">Forgot Password?</button>
         </div>
         <!-- Button to send verification email -->
         <div id="email-verification" style="display: none;">
