@@ -86,8 +86,14 @@ VITE_FIREBASE_MEASUREMENT_ID=G-XXXX
 
 ## Run the Project
 
-```bash
+### Run locally (recommended)
+
+ ```bash
 npm run dev
 ```
 
 - It will output a link you can paste in your browser to use, and *tada*!
+
+### Deploy using Firebase Hosting
+
+**TO BE COMPLETED**
