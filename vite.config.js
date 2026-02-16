@@ -12,7 +12,8 @@ export default defineConfig({
     outDir: "dist",
     rollupOptions: {
       input: {
-        main: resolve(__dirname, "src/index.html"),
+        index: resolve(__dirname, "src/index.html"),
+        onboarding: resolve(__dirname, "src/onboarding.html"),
         home: resolve(__dirname, "src/home.html")
       }
     }
