@@ -1,5 +1,5 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
+import { initializeApp, getApps } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -19,7 +19,9 @@ function initializeFirebase() {
     };
 
     // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
+    const app = getApps().length
+    ? getApps()[0]
+    : initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
 
     // Authentication
@@ -73,8 +75,7 @@ function loginUser(auth, email, password) {
 }
 
 // Listen for auth state changes
-function checkAuthState(callback) {
-  const auth = getAuth();
+function checkAuthState(auth, callback) {
   onAuthStateChanged(auth, (user) => {
     if (user) {
       callback(user);
@@ -85,8 +86,7 @@ function checkAuthState(callback) {
   });
 }
 
-function checkProfileOnboarding(callback) {
-    const auth = getAuth();
+function checkProfileOnboarding(auth, callback) {
     onAuthStateChanged(auth, (user) => {
         if (user && user.emailVerified) {
             if (user.displayName == null) {
